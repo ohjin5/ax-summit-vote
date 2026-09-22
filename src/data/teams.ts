@@ -67,6 +67,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     presenter: '강서영 UM · 곽수빈 UM',
     category: '간호부 발표 세션',
     image: '/images/photo1.png',
+    images: ['/images/photo1.png', '/images/photo2.png'],
     subPrograms: [
       {
         title: 'Implant Verification System',
@@ -96,6 +97,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     presenter: '최대원 선임',
     category: '간호부 발표 세션',
     image: '/images/photo3.png',
+    images: ['/images/photo3.png', '/images/photo4.png'],
     subPrograms: [
       {
         title: '밥밥이',
@@ -125,6 +127,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     presenter: '신윤주 JM · 김예일 UM',
     category: '간호부 발표 세션',
     image: '/images/photo5.png',
+    images: ['/images/photo5.png', '/images/photo6.png'],
     subPrograms: [
       {
         title: '스마트 널스 스케줄러',
@@ -157,6 +160,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     presenter: '김수연 책임',
     category: '환자 안전 & CX 혁신',
     image: '/images/photo7.png',
+    images: ['/images/photo7.png'],
   },
   {
     id: 'team-05',
@@ -173,6 +177,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     presenter: '진달래 과장',
     category: '환자 안전 & CX 혁신',
     image: '/images/photo8.png',
+    images: ['/images/photo8.png'],
   },
   {
     id: 'team-06',
@@ -189,6 +194,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     presenter: '정주안 선임',
     category: '환자 안전 & CX 혁신',
     image: '/images/photo9.png',
+    images: ['/images/photo9.png'],
   },
 
   // ─── MAIN TRACK 2: EMR 인프라 & 진료·경영 핵심 혁신 (07 ~ 11) ───
@@ -207,6 +213,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     presenter: '김은지 선임',
     category: 'EMR 인프라 & 진료·경영',
     image: '/images/photo10.png',
+    images: ['/images/photo10.png'],
   },
   {
     id: 'team-08',
@@ -223,6 +230,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     presenter: '김세은 대리',
     category: 'EMR 인프라 & 진료·경영',
     image: '/images/photo11.png',
+    images: ['/images/photo11.png'],
   },
   {
     id: 'team-09',
@@ -239,6 +247,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     presenter: '김소리 책임',
     category: 'EMR 인프라 & 진료·경영',
     image: '/images/photo12.png',
+    images: ['/images/photo12.png'],
   },
   {
     id: 'team-10',
@@ -255,6 +264,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     presenter: '이상화 교수팀',
     category: 'EMR 인프라 & 진료·경영',
     image: '/images/photo13.png',
+    images: ['/images/photo13.png'],
   },
   {
     id: 'team-11',
@@ -271,6 +281,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     presenter: '조형일 Dr',
     category: 'EMR 인프라 & 진료·경영',
     image: '/images/photo14.png',
+    images: ['/images/photo14.png'],
   },
 ];
 

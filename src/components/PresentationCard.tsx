@@ -9,6 +9,7 @@ interface PresentationCardProps {
   onSelectRank: (team: Team, rank: VoteRank) => void;
   onClearRank: (rank: VoteRank, teamTitle?: string) => void;
   onDisabledClick?: (reason: string) => void;
+  isTutorialOpen?: boolean;
 }
 
 export function PresentationCard({
@@ -17,6 +18,7 @@ export function PresentationCard({
   onSelectRank,
   onClearRank,
   onDisabledClick,
+  isTutorialOpen = false,
 }: PresentationCardProps) {
   // Determine if this team holds any rank currently (1, 2, or 3)
   const assignedRank: VoteRank | null =
@@ -41,10 +43,13 @@ export function PresentationCard({
       <div className="flex items-start gap-3">
         <PresenterImage
           src={team.image}
+          images={team.images}
+          team={team}
           alt={`${team.title} (${team.presenter})`}
           presentationNumber={team.displayNumber || team.presentationNumber}
           trackId={team.track}
           size="md"
+          isTutorialOpen={isTutorialOpen}
         />
 
         {team.subPrograms && team.subPrograms.length > 0 ? (
@@ -101,7 +106,10 @@ export function PresentationCard({
 
       {/* 2. Action Buttons Row: [ 1위 ] [ 2위 ] [ 3위 ] placed BELOW content in 3 equal columns */}
       <div className="mt-3 pt-2.5 border-t border-[#F1F5F9]">
-        <div className="grid grid-cols-3 gap-2 w-full">
+        <div
+          id={team.presentationNumber === '01' || team.id === 'team-01' ? 'tutorial-rank-buttons-01' : undefined}
+          className="grid grid-cols-3 gap-2 w-full tutorial-rank-group"
+        >
           {([1, 2, 3] as VoteRank[]).map((r) => {
             const isSelected = selection[r] === team.id;
             const isOtherRankOnThisTeam =

@@ -99,6 +99,8 @@ export const ConfirmationView: React.FC<ConfirmationViewProps> = ({
               <div className="flex items-start gap-3 pt-1">
                 <PresenterImage
                   src={team.image}
+                  images={team.images}
+                  team={team}
                   alt={`${team.title} 발표자 ${team.presenter}`}
                   presentationNumber={team.displayNumber || team.presentationNumber}
                   trackId={team.track}

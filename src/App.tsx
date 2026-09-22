@@ -11,6 +11,7 @@ import { VoteSuccess } from './components/VoteSuccess';
 import { VotingClosed } from './components/VotingClosed';
 import { AdminLogin } from './components/AdminLogin';
 import { AdminDashboard } from './components/AdminDashboard';
+import { TutorialOverlay } from './components/TutorialOverlay';
 import { getOrCreateVoterId } from './lib/voter';
 import { submitVote } from './services/votingApi';
 import { ArrowRight, Search, CheckCircle2 } from 'lucide-react';
@@ -60,6 +61,21 @@ export default function App() {
       setToastMessage(null);
     }, 1500);
   };
+
+  // Tutorial state
+  const [isTutorialOpen, setIsTutorialOpen] = useState(false);
+
+  // Auto-launch tutorial on first visit
+  useEffect(() => {
+    try {
+      const seen = localStorage.getItem('axSummitTutorialSeen');
+      if (!seen) {
+        setIsTutorialOpen(true);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
 
   // 1. Initial check: Admin deep link or stored token
   useEffect(() => {
@@ -315,7 +331,10 @@ export default function App() {
             ) : (
               <div>
                 {/* 1. Direct Selection Banner */}
-                <VoteProgress selection={selection} />
+                <VoteProgress
+                  selection={selection}
+                  onOpenTutorial={() => setIsTutorialOpen(true)}
+                />
 
                 {/* 2. Sticky Horizontal Track Navigation Chips */}
                 <VoteSummary
@@ -358,6 +377,7 @@ export default function App() {
                         onSelectRank={handleSelectRank}
                         onClearRank={handleClearRank}
                         onDisabledClick={handleDisabledClick}
+                        isTutorialOpen={isTutorialOpen}
                       />
                     );
                   })}
@@ -397,7 +417,10 @@ export default function App() {
                 )}
 
                 {/* Sticky Bottom Action Bar (Compact Single-Row on Mobile) */}
-                <div className="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-[#D9E5F1] shadow-xl p-2.5 sm:p-3.5 z-30">
+                <div
+                  id="tutorial-sticky-bar"
+                  className="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-[#D9E5F1] shadow-xl p-2.5 sm:p-3.5 z-30"
+                >
                   <div className="max-w-2xl mx-auto flex items-center justify-between gap-3 px-1">
                     {/* Compact Status Indicator */}
                     <div className="flex flex-col">
@@ -460,6 +483,11 @@ export default function App() {
           </div>
         </div>
       </footer>
+      {/* Guided Tour / Coach Mark Tutorial Overlay */}
+      <TutorialOverlay
+        isOpen={isTutorialOpen}
+        onClose={() => setIsTutorialOpen(false)}
+      />
     </div>
   );
 }

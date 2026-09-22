@@ -10,6 +10,7 @@ interface TrackSectionProps {
   onSelectRank: (team: Team, rank: VoteRank) => void;
   onClearRank: (rank: VoteRank, teamTitle?: string) => void;
   onDisabledClick?: (reason: string) => void;
+  isTutorialOpen?: boolean;
 }
 
 export function TrackSection({
@@ -19,6 +20,7 @@ export function TrackSection({
   onSelectRank,
   onClearRank,
   onDisabledClick,
+  isTutorialOpen = false,
 }: TrackSectionProps) {
   if (teams.length === 0) {
     return null;
@@ -39,6 +41,7 @@ export function TrackSection({
             onSelectRank={onSelectRank}
             onClearRank={onClearRank}
             onDisabledClick={onDisabledClick}
+            isTutorialOpen={isTutorialOpen}
           />
         ))}
       </div>

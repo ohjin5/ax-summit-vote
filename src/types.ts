@@ -36,6 +36,7 @@ export interface Team {
   presenter: string;
   subPresenter?: string;
   image?: string;
+  images?: string[];
   category?: string;
   subPrograms?: SubProgram[];
   originalId?: string;
