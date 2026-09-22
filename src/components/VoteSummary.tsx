@@ -11,10 +11,10 @@ export function VoteSummary({
   onSelectTrack,
 }: VoteSummaryProps) {
   const tracksList: { id: TrackId | 'all'; label: string }[] = [
-    { id: 'all', label: '전체 (14)' },
-    { id: 'special', label: 'Special Track (01~06)' },
-    { id: 'main1', label: 'Main Track 1 (07~09)' },
-    { id: 'main2', label: 'Main Track 2 (10~14)' },
+    { id: 'all', label: '전체 (11)' },
+    { id: 'special', label: 'Special Track (01~03)' },
+    { id: 'main1', label: 'Main Track 1 (04~06)' },
+    { id: 'main2', label: 'Main Track 2 (07~11)' },
   ];
 
   return (

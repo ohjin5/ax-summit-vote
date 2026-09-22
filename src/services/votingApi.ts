@@ -181,6 +181,11 @@ export async function getAdminResults(password: string): Promise<AdminStats> {
     teamMap.set(t.id, t);
     teamMap.set(String(t.order), t);
     teamMap.set(t.numberStr, t);
+    teamMap.set(t.displayNumber, t);
+    teamMap.set(t.presentationNumber, t);
+    if (t.originalId) {
+      teamMap.set(t.originalId, t);
+    }
   }
 
   const rawResults: any[] = data.results || data.data?.results || [];
@@ -193,6 +198,7 @@ export async function getAdminResults(password: string): Promise<AdminStats> {
       {
         id: `team-${String(numericId).padStart(2, '0')}`,
         order: numericId,
+        displayNumber: String(numericId).padStart(2, '0'),
         numberStr: String(numericId).padStart(2, '0'),
         presentationNumber: String(numericId).padStart(2, '0'),
         track: 'main1',

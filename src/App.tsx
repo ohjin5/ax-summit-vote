@@ -74,7 +74,16 @@ export default function App() {
         t.subtitle.toLowerCase().includes(q) ||
         t.department.toLowerCase().includes(q) ||
         t.presenter.toLowerCase().includes(q) ||
-        t.presentationNumber.includes(q)
+        t.presentationNumber.includes(q) ||
+        (t.displayNumber && t.displayNumber.includes(q)) ||
+        (t.subPrograms &&
+          t.subPrograms.some(
+            (sp) =>
+              sp.title.toLowerCase().includes(q) ||
+              sp.subtitle.toLowerCase().includes(q) ||
+              sp.department.toLowerCase().includes(q) ||
+              sp.presenter.toLowerCase().includes(q)
+          ))
     );
   }, [teams, searchQuery]);
 

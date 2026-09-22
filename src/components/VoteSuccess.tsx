@@ -65,11 +65,18 @@ export const VoteSuccess: React.FC<VoteSuccessProps> = ({ receipt }) => {
               </span>
               <div className="min-w-0">
                 <span className="font-black text-[#102A56] block truncate">
+                  {receipt.firstTeam?.displayNumber ? `${receipt.firstTeam.displayNumber}. ` : ''}
                   {receipt.firstTeam?.title || receipt.first}
                 </span>
-                <span className="text-[11px] text-[#66758A] truncate block">
-                  {receipt.firstTeam?.department} · {receipt.firstTeam?.presenter}
-                </span>
+                {receipt.firstTeam?.subPrograms && receipt.firstTeam.subPrograms.length > 0 ? (
+                  <span className="text-[11px] text-[#66758A] block truncate">
+                    {receipt.firstTeam.subPrograms.map(p => `${p.title} (${p.presenter})`).join(' + ')}
+                  </span>
+                ) : (
+                  <span className="text-[11px] text-[#66758A] truncate block">
+                    {receipt.firstTeam?.department} · {receipt.firstTeam?.presenter}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -80,11 +87,18 @@ export const VoteSuccess: React.FC<VoteSuccessProps> = ({ receipt }) => {
               </span>
               <div className="min-w-0">
                 <span className="font-black text-[#102A56] block truncate">
+                  {receipt.secondTeam?.displayNumber ? `${receipt.secondTeam.displayNumber}. ` : ''}
                   {receipt.secondTeam?.title || receipt.second}
                 </span>
-                <span className="text-[11px] text-[#66758A] truncate block">
-                  {receipt.secondTeam?.department} · {receipt.secondTeam?.presenter}
-                </span>
+                {receipt.secondTeam?.subPrograms && receipt.secondTeam.subPrograms.length > 0 ? (
+                  <span className="text-[11px] text-[#66758A] block truncate">
+                    {receipt.secondTeam.subPrograms.map(p => `${p.title} (${p.presenter})`).join(' + ')}
+                  </span>
+                ) : (
+                  <span className="text-[11px] text-[#66758A] truncate block">
+                    {receipt.secondTeam?.department} · {receipt.secondTeam?.presenter}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -95,11 +109,18 @@ export const VoteSuccess: React.FC<VoteSuccessProps> = ({ receipt }) => {
               </span>
               <div className="min-w-0">
                 <span className="font-black text-[#102A56] block truncate">
+                  {receipt.thirdTeam?.displayNumber ? `${receipt.thirdTeam.displayNumber}. ` : ''}
                   {receipt.thirdTeam?.title || receipt.third}
                 </span>
-                <span className="text-[11px] text-[#66758A] truncate block">
-                  {receipt.thirdTeam?.department} · {receipt.thirdTeam?.presenter}
-                </span>
+                {receipt.thirdTeam?.subPrograms && receipt.thirdTeam.subPrograms.length > 0 ? (
+                  <span className="text-[11px] text-[#66758A] block truncate">
+                    {receipt.thirdTeam.subPrograms.map(p => `${p.title} (${p.presenter})`).join(' + ')}
+                  </span>
+                ) : (
+                  <span className="text-[11px] text-[#66758A] truncate block">
+                    {receipt.thirdTeam?.department} · {receipt.thirdTeam?.presenter}
+                  </span>
+                )}
               </div>
             </div>
           </div>

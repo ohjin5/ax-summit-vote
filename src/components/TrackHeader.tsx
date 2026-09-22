@@ -9,10 +9,10 @@ interface TrackHeaderProps {
 export function TrackHeader({ track, teamCount }: TrackHeaderProps) {
   const rangeStr =
     track.id === 'special'
-      ? '01 ~ 06'
+      ? '01 ~ 03'
       : track.id === 'main1'
-      ? '07 ~ 09'
-      : '10 ~ 14';
+      ? '04 ~ 06'
+      : '07 ~ 11';
 
   return (
     <div id={`track-${track.id}`} className="pt-6 pb-2 scroll-mt-28">

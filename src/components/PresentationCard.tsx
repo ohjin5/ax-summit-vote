@@ -41,31 +41,73 @@ export function PresentationCard({
           <PresenterImage
             src={team.image}
             alt={`${team.title} (${team.presenter})`}
-            presentationNumber={team.presentationNumber}
+            presentationNumber={team.displayNumber || team.presentationNumber}
             trackId={team.track}
             size="md"
           />
 
-          <div className="flex-1 min-w-0 py-0.5">
-            <h4 className="text-base sm:text-lg font-black text-[#102A56] tracking-tight leading-snug group-hover:text-[#1268C4] transition-colors line-clamp-2">
-              <span className="font-mono text-[#1268C4] mr-1.5">
-                {team.presentationNumber}.
-              </span>
-              {team.title}
-            </h4>
+          {team.subPrograms && team.subPrograms.length > 0 ? (
+            <div className="flex-1 min-w-0 py-0.5">
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <span className="font-mono text-xs sm:text-sm font-black text-[#1268C4] bg-[#DCEEFF] px-2 py-0.5 rounded-md">
+                  {team.displayNumber || team.presentationNumber}
+                </span>
+                <span className="text-[11px] font-bold text-[#64748B]">통합 발표 (2개 프로그램)</span>
+              </div>
 
-            <p className="text-xs sm:text-[13px] text-[#64748B] line-clamp-2 leading-relaxed mt-0.5 font-normal">
-              {team.subtitle}
-            </p>
-
-            <div className="mt-1.5 flex items-center">
-              <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-[#F3F8FD] border border-[#D9E5F1] text-[11px] font-semibold text-[#334E68]">
-                <span>{team.department}</span>
-                <span className="mx-1 text-[#94A3B8]">·</span>
-                <span className="text-[#0A2E6D] font-bold">{team.presenter}</span>
-              </span>
+              <div className="space-y-1.5">
+                {team.subPrograms.map((prog, idx) => (
+                  <div key={idx} className="relative">
+                    {idx > 0 && (
+                      <div className="flex items-center gap-2 my-1">
+                        <div className="h-[1px] bg-[#E2E8F0] flex-1" />
+                        <span className="text-[10px] font-black text-[#1268C4] bg-[#F1F5F9] px-1.5 py-0.2 rounded leading-none">
+                          +
+                        </span>
+                        <div className="h-[1px] bg-[#E2E8F0] flex-1" />
+                      </div>
+                    )}
+                    <div>
+                      <h4 className="text-sm sm:text-[15px] font-extrabold text-[#102A56] tracking-tight leading-snug">
+                        {prog.title}
+                      </h4>
+                      <p className="text-xs text-[#64748B] leading-relaxed mt-0.5">
+                        {prog.subtitle}
+                      </p>
+                      <div className="mt-1 flex items-center">
+                        <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-[#F3F8FD] border border-[#D9E5F1] text-[10.5px] font-semibold text-[#334E68]">
+                          <span>{prog.department}</span>
+                          <span className="mx-1 text-[#94A3B8]">·</span>
+                          <span className="text-[#0A2E6D] font-bold">{prog.presenter}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="flex-1 min-w-0 py-0.5">
+              <h4 className="text-base sm:text-lg font-black text-[#102A56] tracking-tight leading-snug group-hover:text-[#1268C4] transition-colors line-clamp-2">
+                <span className="font-mono text-[#1268C4] mr-1.5">
+                  {team.displayNumber || team.presentationNumber}.
+                </span>
+                {team.title}
+              </h4>
+
+              <p className="text-xs sm:text-[13px] text-[#64748B] line-clamp-2 leading-relaxed mt-0.5 font-normal">
+                {team.subtitle}
+              </p>
+
+              <div className="mt-1.5 flex items-center">
+                <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-[#F3F8FD] border border-[#D9E5F1] text-[11px] font-semibold text-[#334E68]">
+                  <span>{team.department}</span>
+                  <span className="mx-1 text-[#94A3B8]">·</span>
+                  <span className="text-[#0A2E6D] font-bold">{team.presenter}</span>
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Action Buttons Row: [ 1위 ] [ 2위 ] [ 3위 ] */}

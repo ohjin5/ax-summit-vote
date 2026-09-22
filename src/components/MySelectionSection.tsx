@@ -74,7 +74,7 @@ export function MySelectionSection({
                       <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
                         <span className="font-extrabold text-sm sm:text-base text-[#102A56] truncate">
                           <span className="font-mono text-[#1268C4] mr-1">
-                            {team.presentationNumber}.
+                            {team.displayNumber || team.presentationNumber}.
                           </span>
                           {team.title}
                         </span>

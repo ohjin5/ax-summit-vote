@@ -14,22 +14,19 @@
  * 7. Vercel 환경변수 또는 .env에 VITE_APPS_SCRIPT_URL 값으로 설정합니다.
  */
 
-// 팀 후보 데이터
+// 팀 후보 데이터 (총 11개 후보)
 var TEAMS_DATA = [
-  { id: 'team-01', number: '01', title: 'Implant Verification System', department: '수술간호B', presenter: '강서영 UM' },
-  { id: 'team-02', number: '02', title: 'AI Wanted OFF App', department: '수술물류Unit', presenter: '곽수빈 UM' },
-  { id: 'team-03', number: '03', title: '밥밥이', department: '특수간호팀', presenter: '최대원 선임' },
-  { id: 'team-04', number: '04', title: 'EnTriage', department: '특수간호팀', presenter: '최대원 선임' },
-  { id: 'team-05', number: '05', title: '스마트 널스 스케줄러', department: '간호부', presenter: '신윤주 JM' },
-  { id: 'team-06', number: '06', title: '간호사 통합 관리 시스템', department: '간호부', presenter: '김예일 UM' },
-  { id: 'team-07', number: '07', title: 'PolyCheck', department: '약제부', presenter: '김수연 책임' },
-  { id: 'team-08', number: '08', title: 'HEAR', department: '고객행복팀', presenter: '진달래 과장' },
-  { id: 'team-09', number: '09', title: '외래 환자 맞춤 안내 AI', department: '외래간호팀', presenter: '정주안 선임' },
-  { id: 'team-10', number: '10', title: 'CCR Scope', department: '수술물류Unit', presenter: '김은지 선임' },
-  { id: 'team-11', number: '11', title: 'AI 기반 채용 업무 자동화 프로그램', department: '인사팀', presenter: '김세은 대리' },
-  { id: 'team-12', number: '12', title: 'Smart KDRG Navigator', department: '적정진료관리팀', presenter: '김소리 책임' },
-  { id: 'team-13', number: '13', title: '치과 스마트 에이전트', department: '치과', presenter: '이상화 교수팀' },
-  { id: 'team-14', number: '14', title: 'nU 진료 연동 시연', department: '내분비내과', presenter: '조형일 Dr' }
+  { id: 'team-01', number: '01', title: 'Implant Verification System + AI Wanted OFF App', department: '수술간호B · 수술물류Unit', presenter: '강서영 UM · 곽수빈 UM' },
+  { id: 'team-02', number: '02', title: '밥밥이 + EnTriage', department: '특수간호팀', presenter: '최대원 선임' },
+  { id: 'team-03', number: '03', title: '스마트 널스 스케줄러 + 간호사 통합 관리 시스템', department: '간호부', presenter: '신윤주 JM · 김예일 UM' },
+  { id: 'team-04', number: '04', originalId: 'team-07', title: 'PolyCheck', department: '약제부', presenter: '김수연 책임' },
+  { id: 'team-05', number: '05', originalId: 'team-08', title: 'HEAR', department: '고객행복팀', presenter: '진달래 과장' },
+  { id: 'team-06', number: '06', originalId: 'team-09', title: '외래 환자 맞춤 안내 AI', department: '외래간호팀', presenter: '정주안 선임' },
+  { id: 'team-07', number: '07', originalId: 'team-10', title: 'CCR Scope', department: '수술물류Unit', presenter: '김은지 선임' },
+  { id: 'team-08', number: '08', originalId: 'team-11', title: 'AI 기반 채용 업무 자동화 프로그램', department: '인사팀', presenter: '김세은 대리' },
+  { id: 'team-09', number: '09', originalId: 'team-12', title: 'Smart KDRG Navigator', department: '적정진료관리팀', presenter: '김소리 책임' },
+  { id: 'team-10', number: '10', originalId: 'team-13', title: '치과 스마트 에이전트', department: '치과', presenter: '이상화 교수팀' },
+  { id: 'team-11', number: '11', originalId: 'team-14', title: 'nU 진료 연동 시연', department: '내분비내과', presenter: '조형일 Dr' }
 ];
 
 /**
@@ -297,8 +294,18 @@ function doGet(e) {
 }
 
 function findTeamById(id) {
+  var idStr = String(id).trim();
   for (var i = 0; i < TEAMS_DATA.length; i++) {
-    if (TEAMS_DATA[i].id === id) return TEAMS_DATA[i];
+    var t = TEAMS_DATA[i];
+    if (
+      t.id === idStr ||
+      t.number === idStr ||
+      (t.originalId && t.originalId === idStr) ||
+      'team-' + t.number === idStr ||
+      'team-' + String(parseInt(idStr, 10)).padStart(2, '0') === t.id
+    ) {
+      return t;
+    }
   }
   return null;
 }

@@ -100,32 +100,40 @@ export const ConfirmationView: React.FC<ConfirmationViewProps> = ({
                 <PresenterImage
                   src={team.image}
                   alt={`${team.title} 발표자 ${team.presenter}`}
-                  presentationNumber={team.presentationNumber}
+                  presentationNumber={team.displayNumber || team.presentationNumber}
                   trackId={team.track}
                   size="sm"
                 />
                 <div className="flex-1 min-w-0">
                   <div className="text-[11px] font-mono font-bold text-[#66758A] mb-0.5">
-                    발표 {team.presentationNumber} · {team.trackTitle}
+                    발표 {team.displayNumber || team.presentationNumber} · {team.trackTitle}
                   </div>
-                  <h3 className="text-base sm:text-lg font-black text-[#102A56] leading-snug">
-                    {team.title}
-                  </h3>
-                  <p className="text-xs text-[#66758A] mt-0.5 line-clamp-1">
-                    {team.subtitle}
-                  </p>
-                  <div className="mt-1 text-xs text-[#202B3C] font-medium">
-                    <span className="text-[#66758A]">{team.department}</span>
-                    <span className="mx-1 text-[#D9E5F1]">·</span>
-                    <span className="font-bold text-[#102A56]">
-                      {team.presenter}
-                      {team.subPresenter && (
-                        <span className="text-[11px] font-semibold text-[#66758A] ml-1">
-                          ({team.subPresenter})
+                  {team.subPrograms && team.subPrograms.length > 0 ? (
+                    <div className="space-y-1 mt-0.5">
+                      {team.subPrograms.map((sp, idx) => (
+                        <div key={idx} className="text-xs">
+                          <span className="font-extrabold text-[#102A56]">{sp.title}</span>
+                          <span className="text-[#66758A] ml-1">({sp.department} · {sp.presenter})</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <>
+                      <h3 className="text-base sm:text-lg font-black text-[#102A56] leading-snug">
+                        {team.title}
+                      </h3>
+                      <p className="text-xs text-[#66758A] mt-0.5 line-clamp-1">
+                        {team.subtitle}
+                      </p>
+                      <div className="mt-1 text-xs text-[#202B3C] font-medium">
+                        <span className="text-[#66758A]">{team.department}</span>
+                        <span className="mx-1 text-[#D9E5F1]">·</span>
+                        <span className="font-bold text-[#102A56]">
+                          {team.presenter}
                         </span>
-                      )}
-                    </span>
-                  </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             ) : (

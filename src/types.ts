@@ -15,9 +15,17 @@ export interface TrackInfo {
   };
 }
 
+export interface SubProgram {
+  title: string;
+  subtitle: string;
+  department: string;
+  presenter: string;
+}
+
 export interface Team {
   id: string;
   order: number;
+  displayNumber: string;
   numberStr: string;
   presentationNumber: string;
   track: TrackId;
@@ -29,6 +37,8 @@ export interface Team {
   subPresenter?: string;
   image?: string;
   category?: string;
+  subPrograms?: SubProgram[];
+  originalId?: string;
 }
 
 export type VoteRank = 1 | 2 | 3;
