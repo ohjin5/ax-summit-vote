@@ -1,168 +1,84 @@
 import React from 'react';
-import { VoteRank, VoteSelection } from '../types';
-import { Sparkles, Trophy } from 'lucide-react';
+import { VoteSelection } from '../types';
+import { Sparkles, Trophy, CheckCircle2, Check, RotateCcw } from 'lucide-react';
 
 interface VoteProgressProps {
-  currentStep: VoteRank;
   selection: VoteSelection;
-  onSelectStep: (step: VoteRank) => void;
 }
 
-export function VoteProgress({
-  currentStep,
-  selection,
-  onSelectStep,
-}: VoteProgressProps) {
-  // New Flow: 3위 (Step 1) -> 2위 (Step 2) -> 1위 (Step 3)
-  const steps: {
-    rank: VoteRank;
-    stepIndex: number;
-    stepBadge: string;
-    label: string;
-    score: string;
-  }[] = [
-    { rank: 3, stepIndex: 1, stepBadge: '③ 3위', label: '3위 선택', score: '1점' },
-    { rank: 2, stepIndex: 2, stepBadge: '② 2위', label: '2위 선택', score: '3점' },
-    { rank: 1, stepIndex: 3, stepBadge: '① 1위', label: '1위 선택', score: '5점' },
-  ];
-
+export function VoteProgress({ selection }: VoteProgressProps) {
   const selectedCount = [selection[1], selection[2], selection[3]].filter(Boolean).length;
-
-  // Step information based on currentStep
-  const stepInfo = {
-    3: {
-      stepNum: 'STEP 1 / 3',
-      title: '3위 발표를 선택해주세요',
-      desc: '먼저 3위로 선정할 발표를 선택해주세요. (1점 부여)',
-      isHighlight: false,
-    },
-    2: {
-      stepNum: 'STEP 2 / 3',
-      title: '2위 발표를 선택해주세요',
-      desc: '다음으로 2위로 선정할 발표를 선택해주세요. (3점 부여)',
-      isHighlight: false,
-    },
-    1: {
-      stepNum: 'STEP 3 / 3',
-      title: '마지막으로 1위를 선택해주세요',
-      desc: '오늘 발표 중 가장 인상 깊었던 AX 혁신 사례를 선택해주세요. (5점 부여)',
-      isHighlight: true,
-    },
-  }[currentStep];
+  const isComplete = selectedCount === 3;
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-4 pt-4 pb-2 sm:px-6">
+    <div className="w-full max-w-2xl mx-auto px-4 pt-3 pb-1 sm:px-6">
       {/* Official White Card Container */}
-      <div className={`bg-white rounded-2xl border p-4 sm:p-5 shadow-xs transition-all ${
-        stepInfo.isHighlight ? 'border-[#1268C4] ring-2 ring-[#1268C4]/15' : 'border-[#D9E5F1]'
-      }`}>
-        {/* Step Indicator & Header Area */}
-        <div className="text-center space-y-1.5 pb-3.5 border-b border-[#D9E5F1]/70">
+      <div
+        className={`bg-white rounded-2xl border p-3.5 sm:p-4 transition-all ${
+          isComplete ? 'border-[#1268C4] ring-2 ring-[#1268C4]/15' : 'border-[#D9E5F1]'
+        }`}
+      >
+        <div className="text-center space-y-2">
+          {/* Header Tag */}
           <div className="flex items-center justify-center gap-2">
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#0A2E6D] text-white text-[11px] font-black tracking-wider">
-              {stepInfo.stepNum}
-            </span>
-            <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#F3F8FD] border border-[#DCEEFF] text-[11px] font-bold text-[#1268C4]">
-              <Sparkles className="w-3 h-3 text-[#2C8CE6]" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#F3F8FD] border border-[#DCEEFF] text-[11px] font-extrabold text-[#1268C4]">
+              <Sparkles className="w-3.5 h-3.5 text-[#2C8CE6]" />
               <span>은평 AX SUMMIT 2026 현장 투표</span>
-            </div>
+            </span>
           </div>
 
-          <h2 className={`text-lg sm:text-xl font-black tracking-tight leading-snug ${
-            stepInfo.isHighlight ? 'text-[#0A2E6D]' : 'text-[#102A56]'
-          }`}>
-            {stepInfo.title}
+          {/* Main Title */}
+          <h2 className="text-base sm:text-lg font-black text-[#102A56] tracking-tight leading-snug">
+            발표 카드의 [1위] [2위] [3위] 버튼을 직접 선택해주세요
           </h2>
 
-          <p className={`text-xs sm:text-sm font-semibold leading-relaxed ${
-            stepInfo.isHighlight ? 'text-[#1268C4]' : 'text-[#66758A]'
-          }`}>
-            {stepInfo.desc}
+          {/* Description */}
+          <p className="text-xs sm:text-[13px] font-semibold text-[#64748B] leading-relaxed max-w-lg mx-auto">
+            가장 우수한 AX 혁신 사례 3개를 선정하여 1위(5점), 2위(3점), 3위(1점)를 각각 부여할 수 있습니다.
           </p>
-        </div>
 
-        {/* Stepper: ③ 3위 선택 ━━━ ② 2위 선택 ━━━ ① 1위 선택 */}
-        <div className="pt-3">
-          <div className="bg-[#F7FAFD] rounded-xl p-1.5 border border-[#D9E5F1] flex items-center justify-between gap-1 sm:gap-2">
-            {steps.map((s, idx) => {
-              const isCurrent = currentStep === s.rank;
-              const isCompleted = Boolean(selection[s.rank]);
-
-              return (
-                <React.Fragment key={s.rank}>
-                  <button
-                    type="button"
-                    onClick={() => onSelectStep(s.rank)}
-                    className={`flex-1 py-2 sm:py-2.5 px-2 rounded-lg transition-all flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 text-center cursor-pointer ${
-                      isCurrent
-                        ? 'bg-[#1268C4] text-white shadow-xs ring-2 ring-[#1268C4]/25'
-                        : isCompleted
-                        ? 'bg-white text-[#0A2E6D] border border-[#D9E5F1] shadow-2xs hover:bg-[#F3F8FD]'
-                        : 'text-[#66758A] hover:bg-white/70'
-                    }`}
-                  >
-                    <div className="flex items-center gap-1">
-                      {isCompleted ? (
-                        <span className="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-bold">
-                          ✓
-                        </span>
-                      ) : (
-                        <span
-                          className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold ${
-                            isCurrent ? 'bg-white/25 text-white' : 'bg-[#DCEEFF] text-[#1268C4]'
-                          }`}
-                        >
-                          {s.rank === 1 ? '1' : s.rank === 2 ? '2' : '3'}
-                        </span>
-                      )}
-                      <span className="text-xs sm:text-sm font-extrabold whitespace-nowrap">
-                        {s.stepBadge}
-                      </span>
-                    </div>
-
-                    <span
-                      className={`text-[10px] font-semibold px-1.5 py-0.2 rounded-full whitespace-nowrap ${
-                        isCurrent
-                          ? 'bg-white/20 text-white'
-                          : isCompleted
-                          ? 'bg-[#DCEEFF] text-[#0A2E6D]'
-                          : 'text-[#66758A]'
-                      }`}
-                    >
-                      {isCompleted ? '선택완료' : s.score}
-                    </span>
-                  </button>
-
-                  {idx < steps.length - 1 && (
-                    <div
-                      className={`h-0.5 w-3 sm:w-6 rounded-full shrink-0 transition-colors ${
-                        selection[s.rank]
-                          ? 'bg-[#1268C4]'
-                          : 'bg-[#D9E5F1]'
-                      }`}
-                    />
-                  )}
-                </React.Fragment>
-              );
-            })}
-          </div>
-
-          {/* Active step guide banner */}
-          <div className="mt-2.5 flex items-center justify-between text-xs px-1">
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#1268C4] animate-pulse" />
-              <span className="font-extrabold text-[#1268C4]">
-                {currentStep === 3
-                  ? '현재 3위 선택 중 (1점)'
-                  : currentStep === 2
-                  ? '현재 2위 선택 중 (3점)'
-                  : '현재 1위 선택 중 (5점)'}
+          {/* Compact Tip Box */}
+          <div className="max-w-md mx-auto my-1.5 p-2.5 sm:p-3 rounded-xl bg-[#F0F7FF] border border-[#BEE1FF] text-left text-xs text-[#1E3E6D] space-y-1 sm:space-y-1.5">
+            <div className="flex items-start gap-1.5 leading-snug">
+              <Check className="w-3.5 h-3.5 text-[#1268C4] shrink-0 mt-0.5" />
+              <span className="font-medium text-[11px] sm:text-xs">
+                각 순위는 <span className="font-bold text-[#0A2E6D]">한 프로그램에만</span> 선택할 수 있습니다.
               </span>
             </div>
+            <div className="flex items-start gap-1.5 leading-snug">
+              <RotateCcw className="w-3.5 h-3.5 text-[#1268C4] shrink-0 mt-0.5" />
+              <span className="font-medium text-[11px] sm:text-xs">
+                선택한 버튼을 <strong className="font-extrabold text-[#0A2E6D] bg-[#E1F0FF] px-1 py-0.5 rounded">한 번 더 누르면 취소</strong>할 수 있습니다.
+              </span>
+            </div>
+          </div>
 
-            <span className="font-bold text-[#66758A]">
-              {selectedCount} / 3 선택 완료
-            </span>
+          {/* Scores Legend & Status Badge */}
+          <div className="pt-1 flex flex-wrap items-center justify-center gap-2 text-xs">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-xl bg-[#F7FAFD] border border-[#D9E5F1] text-[#0A2E6D] font-bold text-[11px] sm:text-xs">
+              <span>🥇 1위 (5점)</span>
+              <span className="text-[#94A3B8]">·</span>
+              <span>🥈 2위 (3점)</span>
+              <span className="text-[#94A3B8]">·</span>
+              <span>🥉 3위 (1점)</span>
+            </div>
+
+            <div
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-xl font-black text-[11px] sm:text-xs transition-all ${
+                isComplete
+                  ? 'bg-emerald-600 text-white shadow-xs'
+                  : 'bg-[#0A2E6D] text-white'
+              }`}
+            >
+              {isComplete ? (
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-200" />
+              ) : (
+                <Trophy className="w-3.5 h-3.5 text-[#2C8CE6]" />
+              )}
+              <span>
+                선택 현황 {selectedCount} / 3 {isComplete ? '· 선택 완료' : ''}
+              </span>
+            </div>
           </div>
         </div>
       </div>

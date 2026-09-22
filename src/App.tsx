@@ -5,6 +5,7 @@ import { Header } from './components/Header';
 import { VoteProgress } from './components/VoteProgress';
 import { VoteSummary } from './components/VoteSummary';
 import { TrackSection } from './components/TrackSection';
+import { MySelectionSection } from './components/MySelectionSection';
 import { ConfirmationView } from './components/ConfirmationView';
 import { VoteSuccess } from './components/VoteSuccess';
 import { VotingClosed } from './components/VotingClosed';
@@ -12,13 +13,11 @@ import { AdminLogin } from './components/AdminLogin';
 import { AdminDashboard } from './components/AdminDashboard';
 import { getOrCreateVoterId } from './lib/voter';
 import { submitVote } from './services/votingApi';
-import { ArrowRight, ChevronRight, Search, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Search, CheckCircle2 } from 'lucide-react';
 
 export default function App() {
   const [teams] = useState<Team[]>(PRESENTATION_TEAMS);
   const [votingStatus] = useState<'ACTIVE' | 'CLOSED'>('ACTIVE');
-  // Initial voting step is now 3위 (Flow: 3위 -> 2위 -> 1위)
-  const [activeStep, setActiveStep] = useState<VoteRank>(3);
   const [selection, setSelection] = useState<VoteSelection>({
     1: null,
     2: null,
@@ -94,66 +93,28 @@ export default function App() {
     return map;
   }, [filteredTeams]);
 
-  // Handle Team Selection with 3 -> 2 -> 1 flow
-  const handleSelectTeam = (team: Team) => {
-    let existingRank: VoteRank | null = null;
-    if (selection[1] === team.id) existingRank = 1;
-    else if (selection[2] === team.id) existingRank = 2;
-    else if (selection[3] === team.id) existingRank = 3;
+  // Handle direct Rank Selection on a team card
+  const handleSelectRank = (team: Team, rank: VoteRank) => {
+    setSelection((prev) => {
+      const next = { ...prev };
+      // If this team was assigned to another rank, remove it from that rank first
+      if (next[1] === team.id) next[1] = null;
+      if (next[2] === team.id) next[2] = null;
+      if (next[3] === team.id) next[3] = null;
 
-    // If team is assigned to another step, it's not allowed in this step (anti-duplicate)
-    if (existingRank !== null && existingRank !== activeStep) {
-      return;
-    }
-
-    const updatedSelection = { ...selection };
-
-    // If team is already assigned to current step, toggle off
-    if (existingRank === activeStep) {
-      updatedSelection[activeStep] = null;
-      setSelection(updatedSelection);
-      return;
-    }
-
-    // Assign to active step
-    updatedSelection[activeStep] = team.id;
-    setSelection(updatedSelection);
-
-    // Auto-advance sequence: 3위 -> 2위 -> 1위 -> 최종 확인
-    if (activeStep === 3) {
-      if (!updatedSelection[2]) {
-        setActiveStep(2);
-      } else if (!updatedSelection[1]) {
-        setActiveStep(1);
-      }
-    } else if (activeStep === 2) {
-      if (!updatedSelection[1]) {
-        setActiveStep(1);
-      } else if (!updatedSelection[3]) {
-        setActiveStep(3);
-      }
-    } else if (activeStep === 1) {
-      // 1위 선택 완료 시, 3위와 2위가 모두 선택되어 있다면 자동으로 최종 확인 화면으로 이동
-      if (updatedSelection[3] && updatedSelection[2] && updatedSelection[1]) {
-        setSubmitError(null);
-        setCurrentView('confirm');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else if (!updatedSelection[3]) {
-        setActiveStep(3);
-      } else if (!updatedSelection[2]) {
-        setActiveStep(2);
-      }
-    }
+      // Assign to target rank
+      next[rank] = team.id;
+      return next;
+    });
   };
 
   // Clear specific rank
-  const handleClearRank = (rank: VoteRank, e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleClearRank = (rank: VoteRank, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     setSelection((prev) => ({
       ...prev,
       [rank]: null,
     }));
-    setActiveStep(rank);
   };
 
   // Scroll to track section smoothly
@@ -267,6 +228,10 @@ export default function App() {
   const allSelected = Boolean(selection[1] && selection[2] && selection[3]);
   const selectedCount = [selection[1], selection[2], selection[3]].filter(Boolean).length;
 
+  const firstTeam = selection[1] ? teamsMap.get(selection[1]) : null;
+  const secondTeam = selection[2] ? teamsMap.get(selection[2]) : null;
+  const thirdTeam = selection[3] ? teamsMap.get(selection[3]) : null;
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F7FAFD] text-[#202B3C] selection:bg-[#1268C4] selection:text-white">
       {/* 1. Header */}
@@ -276,7 +241,7 @@ export default function App() {
       />
 
       {/* Main Content Router */}
-      <main className="flex-1 w-full pb-28">
+      <main className="flex-1 w-full pb-32">
         {/* VIEW: Admin Login */}
         {currentView === 'admin-login' && (
           <AdminLogin
@@ -319,20 +284,11 @@ export default function App() {
               <VotingClosed />
             ) : (
               <div>
-                {/* 1. Hero & 1-2-3 Step Indicator */}
-                <VoteProgress
-                  currentStep={activeStep}
-                  selection={selection}
-                  onSelectStep={(step) => setActiveStep(step)}
-                />
+                {/* 1. Direct Selection Banner */}
+                <VoteProgress selection={selection} />
 
-                {/* 2. Sticky Selection Summary & Horizontal Track Navigation Chips */}
+                {/* 2. Sticky Horizontal Track Navigation Chips */}
                 <VoteSummary
-                  selection={selection}
-                  teamsMap={teamsMap}
-                  activeStep={activeStep}
-                  onSelectStep={(step) => setActiveStep(step)}
-                  onClearRank={handleClearRank}
                   activeTrackId={activeTrackId}
                   onSelectTrack={handleSelectTrack}
                 />
@@ -368,12 +324,9 @@ export default function App() {
                         key={track.id}
                         track={track}
                         teams={trackTeams}
-                        currentStep={activeStep}
                         selection={selection}
-                        onSelectTeam={handleSelectTeam}
-                        onUnselectRank={(rank) =>
-                          setSelection((prev) => ({ ...prev, [rank]: null }))
-                        }
+                        onSelectRank={handleSelectRank}
+                        onClearRank={handleClearRank}
                       />
                     );
                   })}
@@ -392,63 +345,52 @@ export default function App() {
                       </button>
                     </div>
                   )}
+
+                  {/* 3. "내 선택" Bottom Summary Area */}
+                  <MySelectionSection
+                    selection={selection}
+                    teamsMap={teamsMap}
+                    onClearRank={handleClearRank}
+                  />
                 </div>
 
-                {/* Sticky Bottom Action Bar on Mobile */}
+                {/* Sticky Bottom Action Bar */}
                 <div className="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-[#D9E5F1] shadow-xl p-3 sm:p-4 z-30">
-                  <div className="max-w-2xl mx-auto flex items-center justify-between gap-3">
-                    {allSelected ? (
-                      <button
-                        id="btn-proceed-confirm"
-                        type="button"
-                        onClick={handleProceedToConfirm}
-                        className="w-full h-13 sm:h-12 px-6 rounded-xl bg-[#1268C4] hover:bg-[#0A2E6D] active:scale-[0.98] text-white font-black text-base shadow-md shadow-[#1268C4]/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
-                      >
-                        <CheckCircle2 className="w-5 h-5 text-[#DCEEFF]" />
-                        <span>선택 결과 확인하기</span>
-                        <ArrowRight className="w-5 h-5" />
-                      </button>
-                    ) : (
-                      <div className="w-full flex items-center justify-between gap-2">
-                        <div className="text-xs">
-                          <span className="text-[#66758A]">선택 현황: </span>
-                          <span className="font-black text-[#0A2E6D]">
-                            {selectedCount} / 3 선택 완료
-                          </span>
-                        </div>
-
-                        {activeStep === 3 ? (
-                          <button
-                            type="button"
-                            onClick={() => setActiveStep(2)}
-                            className="h-11 px-4 rounded-xl bg-[#0A2E6D] hover:bg-[#0D3882] active:scale-[0.99] text-white font-black text-xs sm:text-sm flex items-center gap-1 transition-all cursor-pointer"
-                          >
-                            <span>다음 단계 (2위 선택)</span>
-                            <ChevronRight className="w-4 h-4" />
-                          </button>
-                        ) : activeStep === 2 ? (
-                          <button
-                            type="button"
-                            onClick={() => setActiveStep(1)}
-                            className="h-11 px-4 rounded-xl bg-[#0A2E6D] hover:bg-[#0D3882] active:scale-[0.99] text-white font-black text-xs sm:text-sm flex items-center gap-1 transition-all cursor-pointer"
-                          >
-                            <span>다음 단계 (1위 선택)</span>
-                            <ChevronRight className="w-4 h-4" />
-                          </button>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (!selection[3]) setActiveStep(3);
-                              else if (!selection[2]) setActiveStep(2);
-                            }}
-                            className="h-11 px-4 rounded-xl bg-[#0A2E6D] text-white font-black text-xs sm:text-sm flex items-center gap-1 cursor-pointer"
-                          >
-                            <span>{!selection[3] ? '3위 선택하기' : '2위 선택하기'}</span>
-                          </button>
-                        )}
+                  <div className="max-w-2xl mx-auto flex flex-col gap-2">
+                    {/* Compact Status Indicator */}
+                    <div className="flex items-center justify-between text-xs font-bold px-1">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[#66758A]">선택 현황:</span>
+                        <span
+                          className={`font-black text-xs sm:text-sm ${
+                            allSelected ? 'text-emerald-600' : 'text-[#0A2E6D]'
+                          }`}
+                        >
+                          {selectedCount} / 3 {allSelected ? '· 선택 완료' : ''}
+                        </span>
                       </div>
-                    )}
+                    </div>
+
+                    {/* Single Check Result Button */}
+                    <button
+                      id="btn-proceed-confirm"
+                      type="button"
+                      disabled={!allSelected}
+                      onClick={handleProceedToConfirm}
+                      className={`w-full h-12 px-6 rounded-xl font-black text-sm sm:text-base flex items-center justify-center gap-2 transition-all shadow-md ${
+                        allSelected
+                          ? 'bg-[#1268C4] hover:bg-[#0A2E6D] active:scale-[0.98] text-white shadow-[#1268C4]/20 cursor-pointer'
+                          : 'bg-[#E2E8F0] text-[#94A3B8] border border-[#CBD5E1] cursor-not-allowed opacity-80'
+                      }`}
+                    >
+                      <CheckCircle2
+                        className={`w-5 h-5 ${
+                          allSelected ? 'text-[#DCEEFF]' : 'text-[#94A3B8]'
+                        }`}
+                      />
+                      <span>선택 결과 확인</span>
+                      <ArrowRight className="w-5 h-5" />
+                    </button>
                   </div>
                 </div>
               </div>
