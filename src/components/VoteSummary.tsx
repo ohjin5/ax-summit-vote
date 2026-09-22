@@ -28,10 +28,10 @@ export function VoteSummary({
   ];
 
   const tracksList: { id: TrackId | 'all'; label: string }[] = [
-    { id: 'all', label: '전체 (13)' },
-    { id: 'special', label: 'Special Track (01~05)' },
-    { id: 'main1', label: 'Main Track 1 (06~08)' },
-    { id: 'main2', label: 'Main Track 2 (09~13)' },
+    { id: 'all', label: '전체 (14)' },
+    { id: 'special', label: 'Special Track (01~06)' },
+    { id: 'main1', label: 'Main Track 1 (07~09)' },
+    { id: 'main2', label: 'Main Track 2 (10~14)' },
   ];
 
   return (

@@ -19,7 +19,7 @@ export function getAppsScriptUrl(): string {
 }
 
 /**
- * Converts team ID (e.g. 'team-01', '1', 1) to numeric candidate ID 1~13.
+ * Converts team ID (e.g. 'team-01', '1', 1) to numeric candidate ID 1~14.
  */
 export function toNumericCandidateId(id: string | number): number {
   if (typeof id === 'number') return id;
