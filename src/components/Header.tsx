@@ -90,37 +90,29 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAdmin, isAdmin }) => {
         </button>
       </div>
 
-      {/* Compact Official Hero Block */}
-      <div className="relative z-10 max-w-2xl mx-auto px-4 py-4 sm:px-6">
+      {/* Compact Official Header Block */}
+      <div className="relative z-10 max-w-2xl mx-auto px-3.5 pt-2.5 pb-2.5 sm:px-6 sm:py-3.5">
         <div className="flex flex-col items-start">
           {/* Main Title Block */}
-          <div className="flex items-baseline gap-2 flex-wrap">
-            <span className="text-xl sm:text-2xl font-black tracking-tight text-white">
+          <div className="flex items-baseline gap-1.5 flex-wrap">
+            <span className="text-lg sm:text-2xl font-black tracking-tight text-white">
               은평
             </span>
-            <span className="text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-xs">
+            <span className="text-xl sm:text-3xl font-black tracking-tight text-white drop-shadow-xs">
               AX SUMMIT
             </span>
-            <span className="text-2xl sm:text-3xl font-black tracking-tight text-[#2C8CE6]">
+            <span className="text-xl sm:text-3xl font-black tracking-tight text-[#2C8CE6]">
               2026
+            </span>
+            <span className="ml-1 text-[11px] sm:text-xs text-blue-200/90 font-medium">
+              · 9. 29 본관 G층 대강당
             </span>
           </div>
 
           {/* Slogan */}
-          <p className="text-xs sm:text-sm font-bold text-white/95 mt-1 tracking-tight">
+          <p className="text-[11.5px] sm:text-sm font-semibold text-white/90 mt-0.5 tracking-tight">
             AI · AX로 연결하는 혁신의 미래
           </p>
-
-          {/* Date & Location tiny badge */}
-          <div className="mt-2 flex items-center gap-2 text-[11px] font-medium text-blue-200/90">
-            <span>2026. 9. 29</span>
-            <span className="text-blue-300/60">·</span>
-            <span>본관 G층 대강당</span>
-            <span className="text-blue-300/60">·</span>
-            <span className="px-1.5 py-0.2 rounded bg-white/15 text-white text-[10px] font-semibold">
-              현장 모바일 투표
-            </span>
-          </div>
         </div>
       </div>
 

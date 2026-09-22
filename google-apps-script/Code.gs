@@ -16,17 +16,17 @@
 
 // 팀 후보 데이터 (총 11개 후보)
 var TEAMS_DATA = [
-  { id: 'team-01', number: '01', title: 'Implant Verification System + AI Wanted OFF App', department: '수술간호B · 수술물류Unit', presenter: '강서영 UM · 곽수빈 UM' },
-  { id: 'team-02', number: '02', title: '밥밥이 + EnTriage', department: '특수간호팀', presenter: '최대원 선임' },
-  { id: 'team-03', number: '03', title: '스마트 널스 스케줄러 + 간호사 통합 관리 시스템', department: '간호부', presenter: '신윤주 JM · 김예일 UM' },
-  { id: 'team-04', number: '04', originalId: 'team-07', title: 'PolyCheck', department: '약제부', presenter: '김수연 책임' },
-  { id: 'team-05', number: '05', originalId: 'team-08', title: 'HEAR', department: '고객행복팀', presenter: '진달래 과장' },
-  { id: 'team-06', number: '06', originalId: 'team-09', title: '외래 환자 맞춤 안내 AI', department: '외래간호팀', presenter: '정주안 선임' },
-  { id: 'team-07', number: '07', originalId: 'team-10', title: 'CCR Scope', department: '수술물류Unit', presenter: '김은지 선임' },
-  { id: 'team-08', number: '08', originalId: 'team-11', title: 'AI 기반 채용 업무 자동화 프로그램', department: '인사팀', presenter: '김세은 대리' },
-  { id: 'team-09', number: '09', originalId: 'team-12', title: 'Smart KDRG Navigator', department: '적정진료관리팀', presenter: '김소리 책임' },
-  { id: 'team-10', number: '10', originalId: 'team-13', title: '치과 스마트 에이전트', department: '치과', presenter: '이상화 교수팀' },
-  { id: 'team-11', number: '11', originalId: 'team-14', title: 'nU 진료 연동 시연', department: '내분비내과', presenter: '조형일 Dr' }
+  { id: 'team-01', number: '01', numericId: 1, title: '수술 & 근무 혁신', department: '수술간호B · 수술물류Unit', presenter: '강서영 UM · 곽수빈 UM' },
+  { id: 'team-02', number: '02', numericId: 2, title: '스마트 케어 & 응급 임상', department: '특수간호팀', presenter: '최대원 선임' },
+  { id: 'team-03', number: '03', numericId: 3, title: '간호 관리 및 스케줄 통합', department: '간호부', presenter: '신윤주 JM · 김예일 UM' },
+  { id: 'team-04', number: '04', numericId: 4, originalId: 'team-07', title: 'PolyCheck', department: '약제부', presenter: '김수연 책임' },
+  { id: 'team-05', number: '05', numericId: 5, originalId: 'team-08', title: 'HEAR', department: '고객행복팀', presenter: '진달래 과장' },
+  { id: 'team-06', number: '06', numericId: 6, originalId: 'team-09', title: '외래 환자 맞춤 안내 AI', department: '외래간호팀', presenter: '정주안 선임' },
+  { id: 'team-07', number: '07', numericId: 7, originalId: 'team-10', title: 'CCR Scope', department: '수술물류Unit', presenter: '김은지 선임' },
+  { id: 'team-08', number: '08', numericId: 8, originalId: 'team-11', title: 'AI 기반 채용 업무 자동화 프로그램', department: '인사팀', presenter: '김세은 대리' },
+  { id: 'team-09', number: '09', numericId: 9, originalId: 'team-12', title: 'Smart KDRG Navigator', department: '적정진료관리팀', presenter: '김소리 책임' },
+  { id: 'team-10', number: '10', numericId: 10, originalId: 'team-13', title: '치과 스마트 에이전트', department: '치과', presenter: '이상화 교수팀' },
+  { id: 'team-11', number: '11', numericId: 11, originalId: 'team-14', title: 'nU 진료 연동 시연', department: '내분비내과', presenter: '조형일 Dr' }
 ];
 
 /**
@@ -300,6 +300,7 @@ function findTeamById(id) {
     if (
       t.id === idStr ||
       t.number === idStr ||
+      String(t.numericId) === idStr ||
       (t.originalId && t.originalId === idStr) ||
       'team-' + t.number === idStr ||
       'team-' + String(parseInt(idStr, 10)).padStart(2, '0') === t.id

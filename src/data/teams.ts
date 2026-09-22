@@ -61,12 +61,12 @@ export const PRESENTATION_TEAMS: Team[] = [
     presentationNumber: '01',
     track: 'special',
     trackTitle: '간호부 발표 세션',
-    title: 'Implant Verification System + AI Wanted OFF App',
-    subtitle: '수술실 임플란트 선납서 OCR 검수 · 모바일 근무신청·정원관리 통합',
+    title: '수술 & 근무 혁신',
+    subtitle: '수술실 임플란트 선납서 OCR 코드 검수 + 모바일 근무신청·정원관리 통합 앱',
     department: '수술간호B · 수술물류Unit',
     presenter: '강서영 UM · 곽수빈 UM',
     category: '간호부 발표 세션',
-    image: '/images/image1.png',
+    image: '/images/photo1.png',
     subPrograms: [
       {
         title: 'Implant Verification System',
@@ -90,22 +90,22 @@ export const PRESENTATION_TEAMS: Team[] = [
     presentationNumber: '02',
     track: 'special',
     trackTitle: '간호부 발표 세션',
-    title: '밥밥이 + EnTriage',
-    subtitle: '직원 식단·칼로리 안내 챗봇 · 음성인식 응급실 초진기록 자동화',
+    title: '스마트 케어 & 응급 임상',
+    subtitle: '직원 식당 주간 식단·칼로리 챗봇 + 응급실 문진 음성인식(STT) 임상기록 자동화',
     department: '특수간호팀',
     presenter: '최대원 선임',
     category: '간호부 발표 세션',
-    image: '/images/image3.png',
+    image: '/images/photo3.png',
     subPrograms: [
       {
         title: '밥밥이',
-        subtitle: '직원 식단·칼로리 정보를 알려주는 챗봇',
+        subtitle: '직원 식당 주간 식단·칼로리·원산지 조회 모바일 챗봇',
         department: '특수간호팀',
         presenter: '최대원 선임',
       },
       {
         title: 'EnTriage',
-        subtitle: '음성인식 기반 응급실 초진기록 자동화',
+        subtitle: '응급실 문진 음성인식(STT) 기반 SOAP 임상기록 자동화',
         department: '특수간호팀',
         presenter: '최대원 선임',
       },
@@ -119,12 +119,12 @@ export const PRESENTATION_TEAMS: Team[] = [
     presentationNumber: '03',
     track: 'special',
     trackTitle: '간호부 발표 세션',
-    title: '스마트 널스 스케줄러 + 간호사 통합 관리 시스템',
-    subtitle: '3교대 근무표 자동 생성 · 멀티에이전트 인사·교육·근무스케줄 분석',
+    title: '간호 관리 및 스케줄 통합',
+    subtitle: '3교대 간호사 근무표 자동 생성 + 간호사 통합 관리 멀티에이전트',
     department: '간호부',
     presenter: '신윤주 JM · 김예일 UM',
     category: '간호부 발표 세션',
-    image: '/images/image5.png',
+    image: '/images/photo5.png',
     subPrograms: [
       {
         title: '스마트 널스 스케줄러',
@@ -156,7 +156,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     department: '약제부',
     presenter: '김수연 책임',
     category: '환자 안전 & CX 혁신',
-    image: '/images/image7.png',
+    image: '/images/photo7.png',
   },
   {
     id: 'team-05',
@@ -172,7 +172,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     department: '고객행복팀',
     presenter: '진달래 과장',
     category: '환자 안전 & CX 혁신',
-    image: '/images/image8.png',
+    image: '/images/photo8.png',
   },
   {
     id: 'team-06',
@@ -188,7 +188,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     department: '외래간호팀',
     presenter: '정주안 선임',
     category: '환자 안전 & CX 혁신',
-    image: '/images/image9.png',
+    image: '/images/photo9.png',
   },
 
   // ─── MAIN TRACK 2: EMR 인프라 & 진료·경영 핵심 혁신 (07 ~ 11) ───
@@ -206,7 +206,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     department: '수술물류Unit',
     presenter: '김은지 선임',
     category: 'EMR 인프라 & 진료·경영',
-    image: '/images/image10.png',
+    image: '/images/photo10.png',
   },
   {
     id: 'team-08',
@@ -222,7 +222,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     department: '인사팀',
     presenter: '김세은 대리',
     category: 'EMR 인프라 & 진료·경영',
-    image: '/images/image11.png',
+    image: '/images/photo11.png',
   },
   {
     id: 'team-09',
@@ -238,7 +238,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     department: '적정진료관리팀',
     presenter: '김소리 책임',
     category: 'EMR 인프라 & 진료·경영',
-    image: '/images/image12.png',
+    image: '/images/photo12.png',
   },
   {
     id: 'team-10',
@@ -254,7 +254,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     department: '치과',
     presenter: '이상화 교수팀',
     category: 'EMR 인프라 & 진료·경영',
-    image: '/images/image13.png',
+    image: '/images/photo13.png',
   },
   {
     id: 'team-11',
@@ -270,7 +270,7 @@ export const PRESENTATION_TEAMS: Team[] = [
     department: '내분비내과',
     presenter: '조형일 Dr',
     category: 'EMR 인프라 & 진료·경영',
-    image: '/images/image14.png',
+    image: '/images/photo14.png',
   },
 ];
 

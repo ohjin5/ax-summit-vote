@@ -1,17 +1,21 @@
 import React from 'react';
 import { Team, VoteRank, VoteSelection } from '../types';
-import { X } from 'lucide-react';
+import { X, CheckCircle2, ArrowRight } from 'lucide-react';
 
 interface MySelectionSectionProps {
   selection: VoteSelection;
   teamsMap: Map<string, Team>;
-  onClearRank: (rank: VoteRank, e?: React.MouseEvent) => void;
+  onClearRank: (rank: VoteRank, teamTitle?: string, e?: React.MouseEvent) => void;
+  onProceedToConfirm?: () => void;
+  allSelected?: boolean;
 }
 
 export function MySelectionSection({
   selection,
   teamsMap,
   onClearRank,
+  onProceedToConfirm,
+  allSelected = false,
 }: MySelectionSectionProps) {
   const ranks: { rank: VoteRank; name: string; medal: string; score: string }[] = [
     { rank: 1, name: '1위', medal: '🥇', score: '5점' },
@@ -40,7 +44,7 @@ export function MySelectionSection({
             </h3>
           </div>
           <p className="text-xs sm:text-sm text-[#66758A] font-semibold mt-1">
-            선택한 프로그램을 확인해주세요.
+            최종 제출 전 선택한 발표를 확인해주세요.
           </p>
         </div>
 
@@ -83,8 +87,8 @@ export function MySelectionSection({
                         </span>
                       </div>
                     ) : (
-                      <span className="text-sm font-bold text-[#94A3B8]">
-                        미선택
+                      <span className="text-xs sm:text-sm font-semibold text-[#94A3B8]">
+                        {name} 아직 선택하지 않았어요
                       </span>
                     )}
                   </div>
@@ -96,7 +100,7 @@ export function MySelectionSection({
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
-                      onClearRank(rank, e);
+                      onClearRank(rank, team.title, e);
                     }}
                     className="self-end sm:self-auto px-2.5 py-1 rounded-lg text-xs font-bold text-[#66758A] hover:text-[#0A2E6D] hover:bg-[#DCEEFF] border border-[#CBD5E1] sm:border-transparent transition-colors flex items-center gap-1 shrink-0 cursor-pointer"
                     title={`${name} 선택 해제`}
@@ -109,6 +113,21 @@ export function MySelectionSection({
             );
           })}
         </div>
+
+        {/* When 1위, 2위, 3위 all selected: show Confirm Button right below */}
+        {allSelected && onProceedToConfirm && (
+          <div className="mt-4 pt-4 border-t border-[#E2E8F0]">
+            <button
+              type="button"
+              onClick={onProceedToConfirm}
+              className="w-full h-12 rounded-xl bg-[#1268C4] hover:bg-[#0A2E6D] active:scale-[0.98] text-white font-black text-sm sm:text-base flex items-center justify-center gap-2 shadow-md shadow-[#1268C4]/20 transition-all cursor-pointer"
+            >
+              <CheckCircle2 className="w-5 h-5 text-[#DCEEFF]" />
+              <span>선택 결과 확인</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

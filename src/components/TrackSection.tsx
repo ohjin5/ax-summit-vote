@@ -8,7 +8,8 @@ interface TrackSectionProps {
   teams: Team[];
   selection: VoteSelection;
   onSelectRank: (team: Team, rank: VoteRank) => void;
-  onClearRank: (rank: VoteRank) => void;
+  onClearRank: (rank: VoteRank, teamTitle?: string) => void;
+  onDisabledClick?: (reason: string) => void;
 }
 
 export function TrackSection({
@@ -17,13 +18,14 @@ export function TrackSection({
   selection,
   onSelectRank,
   onClearRank,
+  onDisabledClick,
 }: TrackSectionProps) {
   if (teams.length === 0) {
     return null;
   }
 
   return (
-    <section id={`track-section-${track.id}`} className="mb-10 scroll-mt-28">
+    <section id={`track-section-${track.id}`} className="mb-8 scroll-mt-28">
       {/* Track Header */}
       <TrackHeader track={track} teamCount={teams.length} />
 
@@ -36,6 +38,7 @@ export function TrackSection({
             selection={selection}
             onSelectRank={onSelectRank}
             onClearRank={onClearRank}
+            onDisabledClick={onDisabledClick}
           />
         ))}
       </div>

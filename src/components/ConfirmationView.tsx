@@ -62,10 +62,10 @@ export const ConfirmationView: React.FC<ConfirmationViewProps> = ({
           <ShieldCheck className="w-6 h-6 text-[#1268C4]" />
         </div>
         <h2 className="text-xl sm:text-2xl font-black text-[#102A56] tracking-tight">
-          최종 선택을 확인해주세요
+          선택하신 발표를 확인해주세요
         </h2>
-        <p className="text-xs sm:text-sm text-[#66758A] mt-1">
-          선택하신 1위 · 2위 · 3위 발표를 최종 확인한 후 제출해주세요.
+        <p className="text-xs sm:text-sm text-[#66758A] mt-1 font-medium">
+          제출 후에는 수정할 수 없습니다.
         </p>
       </div>
 
@@ -109,13 +109,20 @@ export const ConfirmationView: React.FC<ConfirmationViewProps> = ({
                     발표 {team.displayNumber || team.presentationNumber} · {team.trackTitle}
                   </div>
                   {team.subPrograms && team.subPrograms.length > 0 ? (
-                    <div className="space-y-1 mt-0.5">
-                      {team.subPrograms.map((sp, idx) => (
-                        <div key={idx} className="text-xs">
-                          <span className="font-extrabold text-[#102A56]">{sp.title}</span>
-                          <span className="text-[#66758A] ml-1">({sp.department} · {sp.presenter})</span>
-                        </div>
-                      ))}
+                    <div className="mt-0.5">
+                      <h3 className="text-base sm:text-lg font-black text-[#102A56] leading-snug">
+                        {team.title}
+                      </h3>
+                      <div className="mt-1 space-y-1">
+                        {team.subPrograms.map((sp, idx) => (
+                          <div key={idx} className="text-xs">
+                            <span className="font-bold text-[#102A56]">{sp.title}</span>
+                            <span className="text-[#66758A] ml-1.5 text-[11px]">
+                              {sp.department} · {sp.presenter}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   ) : (
                     <>
@@ -180,7 +187,7 @@ export const ConfirmationView: React.FC<ConfirmationViewProps> = ({
           className="w-full h-11 rounded-xl bg-white border border-[#D9E5F1] hover:bg-[#F3F8FD] text-[#0A2E6D] font-bold text-sm active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>선택 수정</span>
+          <span>다시 선택하기</span>
         </button>
       </div>
     </div>

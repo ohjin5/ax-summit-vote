@@ -47,6 +47,20 @@ export default function App() {
   // Search filter
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Toast feedback state (1~2s)
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const toastTimerRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const showToast = (msg: string) => {
+    if (toastTimerRef.current) {
+      clearTimeout(toastTimerRef.current);
+    }
+    setToastMessage(msg);
+    toastTimerRef.current = setTimeout(() => {
+      setToastMessage(null);
+    }, 1500);
+  };
+
   // 1. Initial check: Admin deep link or stored token
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -115,15 +129,22 @@ export default function App() {
       next[rank] = team.id;
       return next;
     });
+    showToast(`✓ ${team.title}를 ${rank}위로 선택했어요.`);
   };
 
   // Clear specific rank
-  const handleClearRank = (rank: VoteRank, e?: React.MouseEvent) => {
+  const handleClearRank = (rank: VoteRank, teamTitle?: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     setSelection((prev) => ({
       ...prev,
       [rank]: null,
     }));
+    showToast(teamTitle ? `${teamTitle}의 ${rank}위 선택을 취소했어요.` : `${rank}위 선택을 취소했어요.`);
+  };
+
+  // Disabled button click feedback (for mobile without hover)
+  const handleDisabledClick = (reason: string) => {
+    showToast(reason);
   };
 
   // Scroll to track section smoothly
@@ -336,6 +357,7 @@ export default function App() {
                         selection={selection}
                         onSelectRank={handleSelectRank}
                         onClearRank={handleClearRank}
+                        onDisabledClick={handleDisabledClick}
                       />
                     );
                   })}
@@ -360,45 +382,54 @@ export default function App() {
                     selection={selection}
                     teamsMap={teamsMap}
                     onClearRank={handleClearRank}
+                    onProceedToConfirm={handleProceedToConfirm}
+                    allSelected={allSelected}
                   />
                 </div>
 
-                {/* Sticky Bottom Action Bar */}
-                <div className="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-[#D9E5F1] shadow-xl p-3 sm:p-4 z-30">
-                  <div className="max-w-2xl mx-auto flex flex-col gap-2">
+                {/* Floating Toast Notification (1~2 seconds) */}
+                {toastMessage && (
+                  <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 pointer-events-none transition-all px-4 max-w-[90vw]">
+                    <div className="bg-[#0A2E6D]/95 backdrop-blur-xs text-white px-4 py-2.5 rounded-full shadow-lg text-xs sm:text-sm font-bold flex items-center justify-center gap-2 border border-[#2C8CE6]/40 text-center animate-in fade-in zoom-in-95 duration-150">
+                      <span>{toastMessage}</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Sticky Bottom Action Bar (Compact Single-Row on Mobile) */}
+                <div className="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-[#D9E5F1] shadow-xl p-2.5 sm:p-3.5 z-30">
+                  <div className="max-w-2xl mx-auto flex items-center justify-between gap-3 px-1">
                     {/* Compact Status Indicator */}
-                    <div className="flex items-center justify-between text-xs font-bold px-1">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-[#66758A]">선택 현황:</span>
-                        <span
-                          className={`font-black text-xs sm:text-sm ${
-                            allSelected ? 'text-emerald-600' : 'text-[#0A2E6D]'
-                          }`}
-                        >
-                          {selectedCount} / 3 {allSelected ? '· 선택 완료' : ''}
-                        </span>
-                      </div>
+                    <div className="flex flex-col">
+                      <span className="text-[10.5px] font-semibold text-[#66758A]">선택 진행 상황</span>
+                      <span
+                        className={`font-black text-xs sm:text-sm leading-tight ${
+                          allSelected ? 'text-emerald-600' : 'text-[#0A2E6D]'
+                        }`}
+                      >
+                        {allSelected ? '✓ 3 / 3 선택 완료' : `${selectedCount} / 3 선택`}
+                      </span>
                     </div>
 
-                    {/* Single Check Result Button */}
+                    {/* Single Check Result Button (min-h-[44px] touch target) */}
                     <button
                       id="btn-proceed-confirm"
                       type="button"
                       disabled={!allSelected}
                       onClick={handleProceedToConfirm}
-                      className={`w-full h-12 px-6 rounded-xl font-black text-sm sm:text-base flex items-center justify-center gap-2 transition-all shadow-md ${
+                      className={`min-h-[44px] px-4 sm:px-6 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all shadow-sm ${
                         allSelected
                           ? 'bg-[#1268C4] hover:bg-[#0A2E6D] active:scale-[0.98] text-white shadow-[#1268C4]/20 cursor-pointer'
                           : 'bg-[#E2E8F0] text-[#94A3B8] border border-[#CBD5E1] cursor-not-allowed opacity-80'
                       }`}
                     >
                       <CheckCircle2
-                        className={`w-5 h-5 ${
+                        className={`w-4 h-4 ${
                           allSelected ? 'text-[#DCEEFF]' : 'text-[#94A3B8]'
                         }`}
                       />
                       <span>선택 결과 확인</span>
-                      <ArrowRight className="w-5 h-5" />
+                      <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
