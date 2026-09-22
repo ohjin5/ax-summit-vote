@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --ax-primary-navy: #0A2E6D;
+    --ax-primary-blue: #1268C4;
+    --ax-bright-blue: #2C8CE6;
+    --ax-light-blue: #DCEEFF;
+    --ax-very-light-blue: #F3F8FD;
+    --ax-text-navy: #102A56;
+    --ax-main-text: #202B3C;
+    --ax-sub-text: #66758A;
+    --ax-border: #D9E5F1;
+    --ax-bg: #F7FAFD;
+  }
+
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+    background-color: #F7FAFD;
+    color: #202B3C;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "은평 AX SUMMIT 2026 현장 투표",
+  "description": "은평 AX SUMMIT 2026 성과발표회 현장 실시간 모바일 투표 시스템 | 가톨릭대학교 은평성모병원 - AI·AX로 연결하는 혁신의 미래",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
